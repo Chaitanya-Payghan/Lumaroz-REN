@@ -9,6 +9,7 @@ from ren.core.contracts.models import (
     RiskLevel,
 )
 from ren.core.contracts.protocols import (
+    ContextProvider,
     MemoryStore,
     PermissionEngine,
     Planner,
@@ -34,4 +35,5 @@ __all__ = [
     "RiskLevel",
     "Tool",
     "ToolRegistry",
+    "ContextProvider",
 ]

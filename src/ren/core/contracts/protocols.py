@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from typing import Any, Protocol
 
 from ren.core.contracts.models import (
@@ -89,3 +90,15 @@ class MemoryStore(Protocol):
         query: str,
         limit: int = 10,
     ) -> list[Any]: ...
+
+
+class ContextProvider(Protocol):
+    """Provides contextual information to REN."""
+
+    name: str
+
+    async def collect(
+        self,
+        request: Request,
+        context: ContextSnapshot,
+    ) -> Mapping[str, Any]: ...
