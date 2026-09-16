@@ -1,1 +1,112 @@
+# ================================
+# REN — Python / Virtual Environment
+# ================================
 
+.venv/
+venv/
+env/
+ENV/
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ================================
+# Environment / Secrets
+# ================================
+
+.env
+.env.*
+!.env.example
+
+secrets/
+*.pem
+*.key
+*.crt
+
+# ================================
+# REN Local Data
+# ================================
+
+*.db
+*.sqlite
+*.sqlite3
+
+data/
+runtime/
+cache/
+
+# ================================
+# Logs
+# ================================
+
+*.log
+logs/
+
+# ================================
+# Testing / Coverage
+# ================================
+
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ================================
+# Type Checking / Linters
+# ================================
+
+.mypy_cache/
+.pyright/
+.ruff_cache/
+
+# ================================
+# Build / Distribution
+# ================================
+
+build/
+dist/
+*.egg-info/
+
+# ================================
+# IDE
+# ================================
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+.idea/
+
+# ================================
+# OS
+# ================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ================================
+# Temporary Files
+# ================================
+
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ================================
+# Local Model / AI Artifacts
+# ================================
+
+models/
+model-cache/
+
+# ================================
+# REN Benchmark Results
+# ================================
+
+benchmarks/results/
