@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Protocol
 
-from ren.memory.models import Memory
+from ren.memory.models import Memory, MemoryQuery
 
 
 class MemoryStore(Protocol):
@@ -12,8 +12,7 @@ class MemoryStore(Protocol):
 
     async def retrieve(
         self,
-        query: str,
-        limit: int = 10,
+        query: MemoryQuery,
     ) -> list[Memory]:
         """Retrieve memories relevant to a query."""
         ...

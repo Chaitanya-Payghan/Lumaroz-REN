@@ -4,7 +4,7 @@ import json
 import sqlite3
 from datetime import datetime
 
-from ren.memory.models import Memory, MemoryType
+from ren.memory.models import Memory, MemoryQuery, MemoryType
 
 
 class SQLiteMemoryStore:
@@ -67,19 +67,27 @@ class SQLiteMemoryStore:
 
     async def retrieve(
         self,
-        query: str,
-        limit: int = 10,
+        query: MemoryQuery,
     ) -> list[Memory]:
+        sql = """
+            SELECT *
+            FROM memories
+            WHERE content LIKE ?
+        """
+
+        parameters: list[object] = [f"%{query.text}%"]
+
+        if query.memory_type is not None:
+            sql += " AND memory_type = ?"
+            parameters.append(query.memory_type.value)
+
+        sql += " ORDER BY updated_at DESC LIMIT ?"
+        parameters.append(query.limit)
+
         with self._connect() as connection:
             rows = connection.execute(
-                """
-                SELECT *
-                FROM memories
-                WHERE content LIKE ?
-                ORDER BY updated_at DESC
-                LIMIT ?
-                """,
-                (f"%{query}%", limit),
+                sql,
+                parameters,
             ).fetchall()
 
         return [self._row_to_memory(row) for row in rows]

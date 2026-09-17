@@ -27,3 +27,10 @@ class Memory:
     updated_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     importance: float = 0.5
     metadata: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(frozen=True, slots=True)
+class MemoryQuery:
+    text: str
+    memory_type: MemoryType | None = None
+    limit: int = 10

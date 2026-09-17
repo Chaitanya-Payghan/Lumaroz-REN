@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC
 
-from ren.memory import Memory, MemoryType
+from ren.memory import Memory, MemoryQuery, MemoryType
 
 
 def test_memory_has_defaults() -> None:
@@ -48,3 +48,11 @@ def test_memory_ids_are_unique() -> None:
     second = Memory(content="Second")
 
     assert first.memory_id != second.memory_id
+
+
+def test_memory_query_has_defaults() -> None:
+    query = MemoryQuery(text="REN")
+
+    assert query.text == "REN"
+    assert query.memory_type is None
+    assert query.limit == 10

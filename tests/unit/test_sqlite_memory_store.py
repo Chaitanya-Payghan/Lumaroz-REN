@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ren.memory import Memory, MemoryType
+from ren.memory import Memory, MemoryQuery, MemoryType
 from ren.memory.storage import SQLiteMemoryStore
 
 
@@ -54,7 +54,7 @@ async def test_retrieve_finds_matching_memories(tmp_path) -> None:
     await store.remember(Memory(content="REN uses SQLite for local memory."))
     await store.remember(Memory(content="Lumaroz is building REN."))
 
-    results = await store.retrieve("SQLite")
+    results = await store.retrieve(MemoryQuery(text="SQLite"))
 
     assert len(results) == 1
     assert results[0].content == "REN uses SQLite for local memory."
@@ -66,7 +66,12 @@ async def test_retrieve_respects_limit(tmp_path) -> None:
     for index in range(5):
         await store.remember(Memory(content=f"Memory item {index}"))
 
-    results = await store.retrieve("Memory", limit=2)
+    results = await store.retrieve(
+        MemoryQuery(
+            text="Memory",
+            limit=2,
+        )
+    )
 
     assert len(results) == 2
 
@@ -86,3 +91,31 @@ async def test_forget_returns_false_for_missing_memory(tmp_path) -> None:
     store = create_store(tmp_path)
 
     assert await store.forget("does-not-exist") is False
+
+
+async def test_retrieve_filters_by_memory_type(tmp_path) -> None:
+    store = create_store(tmp_path)
+
+    await store.remember(
+        Memory(
+            content="REN is a personal AI project.",
+            memory_type=MemoryType.PROJECT,
+        )
+    )
+
+    await store.remember(
+        Memory(
+            content="REN is a personal AI preference.",
+            memory_type=MemoryType.PREFERENCE,
+        )
+    )
+
+    results = await store.retrieve(
+        MemoryQuery(
+            text="REN",
+            memory_type=MemoryType.PROJECT,
+        )
+    )
+
+    assert len(results) == 1
+    assert results[0].memory_type == MemoryType.PROJECT
